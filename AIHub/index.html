@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart AI Tools Directory | Discover the Best AI Tools</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="dark-theme">
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">⚡ SmartAI</a>
+            <div class="nav-menu" id="navMenu">
+                <a href="#" class="nav-link active">Home</a>
+                <a href="#" class="nav-link">Categories</a>
+                <a href="#" class="nav-link" onclick="openSubmitModal(); event.preventDefault();">Submit Tool</a>
+                <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">🌓</button>
+            </div>
+            <button class="mobile-toggle" onclick="toggleMobileMenu()">☰</button>
+        </div>
+    </nav>
+
+    <header class="hero-section">
+        <div class="hero-container">
+            <h1>Discover the Ultimate <span class="text-gradient">AI Stack</span></h1>
+            <p>Explore over 65+ curated AI tools for students, creators, and developers to maximize productivity and build software rapidly.</p>
+            <div class="hero-ctas">
+                <a href="#toolsGrid" class="btn btn-primary">Explore Directory</a>
+                <a href="#" class="btn btn-secondary" onclick="openSubmitModal(); event.preventDefault();">Submit Your AI</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="stats-dashboard">
+        <div class="stats-container">
+            <div class="stat-card">
+                <span class="stat-num" id="stat-total">0</span>
+                <span class="stat-label">Total AI Tools</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-num" id="stat-free" style="color: #2ec4b6;">0</span>
+                <span class="stat-label">Free Access</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-num" id="stat-premium" style="color: #ff9f1c;">0</span>
+                <span class="stat-label">Premium Tier</span>
+            </div>
+        </div>
+        
+        <div class="results-indicator" id="resultsCounter">
+            Showing all operational tools
+        </div>
+    </section>
+
+    <section class="categories-filter-section">
+        <div class="filter-container" id="categoryFilters">
+            <button class="filter-btn active" onclick="filterByCategory('All')">All Tools</button>
+            <button class="filter-btn" onclick="filterByCategory('AI Chatbots')">Chatbots</button>
+            <button class="filter-btn" onclick="filterByCategory('AI Presentation')">Presentations</button>
+            <button class="filter-btn" onclick="filterByCategory('AI Coding Assistance')">Coding</button>
+            <button class="filter-btn" onclick="filterByCategory('AI App Building')">App Builders</button>
+            <button class="filter-btn" onclick="filterByCategory('AI Image Generation')">Images</button>
+            <button class="filter-btn" onclick="filterByCategory('AI Video Generation')">Video</button>
+            <button class="filter-btn" onclick="filterByCategory('AI Workflow Automation')">Automation</button>
+            <button class="filter-btn" onclick="filterByCategory('AI Tools for Students')">Student Tools</button>
+        </div>
+    </section>
+
+    <section class="controls-panel">
+        <div class="search-wrapper">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="searchBar" placeholder="Search AI tools by name, utility, or keywords..." onkeyup="filterTools()">
+        </div>
+        
+        <div class="filter-sort-row">
+            <div class="pricing-filters">
+                <button class="price-btn" id="price-fav" onclick="toggleFavoritesFilter()" style="border-color: #e63946; color: #e63946;">❤️ Favorites</button>
+                <button class="price-btn active" id="price-all" onclick="filterByPrice('All')">All Prices</button>
+                <button class="price-btn" id="price-free" onclick="filterByPrice('Free')">Free Only</button>
+                <button class="price-btn" id="price-premium" onclick="filterByPrice('Premium')">Premium Only</button>
+            </div>
+            
+            <div class="sort-wrapper">
+                <label for="sortSelect" style="font-size: 0.9rem; color: var(--text-muted); font-weight: 600;">Sort By: </label>
+                <select id="sortSelect" onchange="handleSorting()">
+                    <option value="default">Featured</option>
+                    <option value="alpha">Alphabetical (A-Z)</option>
+                    <option value="rating">Highest Rated</option>
+                </select>
+            </div>
+        </div>
+    </section>
+
+    <div class="adsense-placeholder">
+        <span>Advertisement Partner Area (AdSense Block)</span>
+    </div>
+
+    <main class="directory-container" id="toolsGrid"></main>
+    <div class="load-more-container" style="text-align: center; margin: 30px 0 60px 0;">
+    <button id="loadMoreBtn" class="btn btn-primary" onclick="loadNextPage()">Load More Tools 👇</button>
+</div>
+
+    <div id="toolDetailPage" class="detail-page-overlay" onclick="closeDetailPage()">
+        <div class="detail-page-content" onclick="event.stopPropagation()">
+            <button class="close-detail-btn" onclick="closeDetailPage()">← Back to Directory</button>
+            <div class="detail-header">
+                </div>
+            <div class="detail-grid">
+                <div class="detail-main-info">
+                    <h3>Tool Overview & Description</h3>
+                    <p id="detailLongDesc"></p>
+                    <h3>Deployment & Usage Guide</h3>
+                    <ul id="detailGuide" class="guide-list"></ul>
+                </div>
+                <div class="sidebar-card">
+                    <h4>Actions Layer</h4>
+                    <a id="detailVisitLink" href="#" target="_blank" class="visit-btn">Open Official Site →</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="submitModal" class="modal-overlay" onclick="closeSubmitModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close-btn" onclick="closeSubmitModal()">✕</button>
+            <h3>Submit an AI Tool</h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;">Help grow the directory! Add a tool to our curation backlog.</p>
+            
+            <form id="toolSubmissionForm" onsubmit="handleFormSubmit(event)">
+                <div class="form-group">
+                    <label for="modalToolName">Tool Name</label>
+                    <input type="text" id="modalToolName" required placeholder="e.g., Midjourney">
+                </div>
+                <div class="form-group">
+                    <label for="modalToolCategory">Category</label>
+                    <select id="modalToolCategory" required>
+                        <option value="AI Chatbots">AI Chatbots</option>
+                        <option value="AI Presentation">AI Presentation</option>
+                        <option value="AI Coding Assistance">AI Coding Assistance</option>
+                        <option value="AI Image Generation">AI Image Generation</option>
+                        <option value="AI Graphic Design">AI Graphic Design</option>
+                        <option value="AI Video Generation">AI Video Generation</option>
+                        <option value="AI Workflow Automation">AI Workflow Automation</option>
+                        <option value="AI Tools for Students">AI Tools for Students</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="modalToolUrl">Official Website URL</label>
+                    <input type="url" id="modalToolUrl" required placeholder="https://example.com">
+                </div>
+                <div class="form-group">
+                    <label for="modalToolDesc">Short Utility Description</label>
+                    <textarea id="modalToolDesc" required rows="3" placeholder="Explain what this AI tool does in a few clear sentences..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; border: none; margin-top: 10px;">Submit to Curation Team</button>
+            </form>
+        </div>
+    </div>
+<section class="info-section">
+    <div class="info-container">
+        <h2>A List of the Best Free AI Sites</h2>
+        <p>Once confined to the realm of science fiction, artificial intelligence (AI) is now fully integrated into everyday life. Indeed, thanks to a multitude of <strong>free AI tools</strong>, you can now harness the power of this technology and integrate it into your daily workflow without financial barriers.</p>
+
+        <div class="info-grid">
+            <div class="info-card">
+                <h3>🔍 Wide Choice of Free AI Tools</h3>
+                <p>Looking for a tool to generate text, translate languages, create images, or automate repetitive tasks? You'll find AI services across all categories tailored to your needs.</p>
+            </div>
+            <div class="info-card">
+                <h3>📜 Clear & Concise Descriptions</h3>
+                <p>Say goodbye to incomprehensible jargon! We explain in simple terms how each tool works and what it can do for your projects.</p>
+            </div>
+            <div class="info-card">
+                <h3>⚙️ Advanced Filtering System</h3>
+                <p>Narrow your search by price, category type, and keywords to quickly find the exact tools that match your goals.</p>
+            </div>
+            <div class="info-card">
+                <h3>💪 Community Bookmarking & Favorites</h3>
+                <p>Save your favorite AI tools to your local list so you can easily access and manage your preferred workflow anytime.</p>
+            </div>
+        </div>
+
+        <hr class="section-divider">
+
+        <h2>Frequently Asked Questions (FAQ)</h2>
+        <div class="faq-container">
+            <div class="faq-item">
+                <h4>Are the tools listed really free?</h4>
+                <p>Each tool listed in the "Free" category is available at no charge. Some services may also offer freemium tiers or optional paid subscriptions for advanced features.</p>
+            </div>
+            <div class="faq-item">
+                <h4>How can I save my favorite AI tools?</h4>
+                <p>Simply click the heart icon on any tool card to add it to your Favorites list. You can view all saved items anytime using the "Favorites" filter.</p>
+            </div>
+            <div class="faq-item">
+                <h4>Are new tools added regularly?</h4>
+                <p>Yes! We continuously update and curate the directory to keep you up to date with the latest discoveries in AI technology.</p>
+            </div>
+        </div>
+    </div>
+</section>
+    <footer class="site-footer">
+    <div class="footer-container">
+        <div class="footer-brand">
+            <div class="brand-logo">
+                <span class="bolt-icon">⚡</span>
+                <span class="logo-text">Smart<span>AI</span></span>
+            </div>
+            <p class="brand-tagline">Artificial intelligence for everyone</p>
+            <div class="flag-icons">
+                <span title="India">🇮🇳</span>
+            </div>
+        </div>
+
+
+        <div class="footer-col">
+            <h4>Company</h4>
+            <ul>
+                
+                <li><a href="javascript:void(0)" onclick="openModal('privacyModal')">Privacy Policy</a></li>
+                <li><a href="javascript:void(0)" onclick="openModal('termsModal')">Terms of Service</a></li>
+                <li><a href="mailto:gowthamsai.papisetty@gmail.com">Contact Us</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>© SmartAI Tools Directory. Designed & Built for AI Enthusiasts by <strong>[Venkata Gowtham Sai Papisetty]</strong>. All rights reserved.</p>
+    </div>
+</footer>
+        </div>
+    </footer>
+
+    <script src="javascript/script.js"></script>
+    <button id="backToTopBtn" onclick="scrollToTop()" title="Go to top">⬆</button>
+    <div id="privacyModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal('privacyModal')">&times;</span>
+        <h2>Privacy Policy</h2>
+        <p>Your privacy is important to us. This website does not store any personal data or track personal browsing activity. All saved favorites are stored locally in your browser.</p>
+    </div>
+</div>
+
+<div id="termsModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal('termsModal')">&times;</span>
+        <h2>Terms of Service</h2>
+        <p>This AI Tools Directory is provided for informational and educational purposes. We do not host or own any of the third-party AI tools linked on this site.</p>
+    </div>
+</div>
+</body>
+</html>
